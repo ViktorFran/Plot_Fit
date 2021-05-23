@@ -57,7 +57,7 @@ while True:
         
         def tetraMolecular(x, N, a, D, b, H, Tm):
             C = 8
-            K = np.exp((H/R)*((1/Tm)-(1/x)))
+            K = np.exp((H/R)*((1/(Tm+273.15))-(1/(x+273.15))))
             u = np.cbrt(np.sqrt(3)*np.sqrt(256*(C**3)*(K**3)+27*(C**2)*(K**4))+9*C*(K**2))
             u2 = np.cbrt(18)*C
             u3 = 4*np.cbrt(2/3)*K
@@ -65,11 +65,15 @@ while True:
             u5 = ((u/u2)-(u3/u))
             v = (1/2)*np.sqrt(u5)
             w = (1/2)*np.sqrt((u4)/(4*np.sqrt(u5))-u5)
-            # return N+a*x+((b-a)*x+D-N)*(v - w + 1)
-            return (v - w + 1)
-
+            return N+a*x+((b-a)*x+D-N)*(v - w + 1)
+            # return (v - w + 1)
+        
+        def monoMolecular(x, N, a, D, b, H, Tm):
+            return N + a*x + ((b-a)*x+D-N)/(1+ np.exp((H/R)*(1/(Tm+273.15)-1/(x+273.15))))
+        
         ### Add new functions to the dictionary
-        model_dict = {  
+        model_dict = {
+            "monoMolecular" : monoMolecular,
             "biMolecularDuplex" : biMolecularDuplex,
             "linear" : linear,
             "tetraMolecular" : tetraMolecular,
@@ -77,9 +81,10 @@ while True:
         
         ### Define initial value for each function
         init_dict = {
-            "biMolecularDuplex" : dict(N=0.1, a=0.001, D=0.1, b=0.001, H=200000, Tm=65),
+            "monoMolecular" : dict(N=0.1, a=0.001, D=0.1, b=0.001, H=200000, Tm=55),
+            "biMolecularDuplex" : dict(N=0.1, a=0.001, D=0.1, b=0.001, H=200000, Tm=55),
             "linear" : dict(m=0, b=0),
-            "tetraMolecular" : dict(N=0.1, a=0.001, D=0.1, b=0.001, H=130000, Tm=65),
+            "tetraMolecular" : dict(N=0.1, a=0.001, D=0.1, b=0.001, H=200000, Tm=55),
             }
         
         ######################################################################
@@ -118,7 +123,7 @@ while True:
         initial = model.make_params(**init_dict[model_name])
         # print('parameter names: {}'.format(model.param_names))
         # print('independent variables: {}'.format(model.independent_vars))
-        fitted = model.fit(data=y_data, params=initial, x=x_data, method='leastsq', nan_policy='omit', max_nfev=1000)
+        fitted = model.fit(data=y_data, params=initial, x=x_data, method='leastsq', max_nfev=1000)
         print("-"*50)
         print(fitted.fit_report(show_correl=False))
         # print("Tm:", fitted.params.get('Tm').value, "+/-", fitted.params.get('Tm').stderr)
@@ -143,8 +148,9 @@ while True:
         plt.ylabel(str(y_data.name).strip())
         plt.show()
         
-        # for i in range(5):
-        #     fitted.fit(data=y_data, param=fitted.params * random.random(), x=x_data, nan_policy='omit')
+        ### Re-Fit using previously found parameter ###
+        # for i in range(3):
+        #     fitted = model.fit(data=y_data, params=fitted.params, x=x_data, method='leastsq', max_nfev=1000)
         #     print(fitted.fit_report(show_correl=False))
         #     plt.scatter(x_data, y_data, marker='.')
         #     plt.plot(x_data, fitted.best_fit, linestyle='-', color='red')

@@ -1,0 +1,88 @@
+%Document Style
+\documentclass[letterpaper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\pagestyle{empty}
+\usepackage[UKenglish]{babel}
+%Title Format
+\usepackage{titlesec}
+\titleformat{\section}{\Large\sc\raggedright}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{3pt}{3pt}
+%Margin
+\usepackage[left=1.25in,right=1.25in,top=1.25in,bottom=1.25in]{geometry}
+%Font
+\usepackage{amsmath, amssymb, mathptmx}
+%URL
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Takuma Kume}}
+%Indent and paragraph line break
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\underline{Tetra-molecular Self-Complementary}  $nA \leftrightarrow A_n$
+\begin{align}
+	G &= -RT \ln K \label{eq1}\\
+	G &= \Delta H - T\Delta S \\
+	\therefore \Delta H &- T \Delta S = - RT \ln K \label{htsrtlnk}
+\end{align}
+At $ T_m $,
+\begin{align}
+	\Delta H - T_m \Delta S &= - RT_m \ln K_{T_m}\\
+	T_m \Delta S &= \Delta H +RT_m\ln K_{T_m}\\
+	\Delta S &= \frac{\Delta H}{T_m}+R\ln K_{T_m}
+\end{align}
+Substitute $ \Delta S $ to equation \ref{htsrtlnk},
+\begin{align}
+	\Delta H - T(\frac{\Delta H}{T_m}+R\ln K_{T_m}) = - RT \ln K
+\end{align}
+Divide both sides by $ -RT $,
+\begin{align}
+	\ln K &= -\frac{\Delta H}{RT} + \frac{\Delta H}{RT_m} - \ln K_{T_m}\\
+	K &= K_{T_m} e^{\frac{\Delta H}{R}\left(\frac{1}{T_m}-\frac{1}{T}\right)} \\
+	\frac{K}{K_{T_m}} &= e^{\frac{\Delta H}{R}\left(\frac{1}{T_m}-\frac{1}{T}\right)}\label{kk}
+\end{align}
+
+From [Marky and Breslauer 1987], assuming at $ T_m $ $\alpha = 1/2$, association equilibrium constant K for Self-complementary sequence are,
+\begin{align}
+	K &= \frac{\alpha}{nC_{T}^{n-1}(1-\alpha)^n}\\
+	K_{T_m} &= \frac{1}{n(C_T/2)^{n-1}}
+\end{align}
+Thus when $ n = 4 $ for tetra-molecular associations,
+\begin{align}
+	K &= \frac{\alpha}{4 C_{T}^{3}(1-\alpha)^4} \label{K4}\\
+	K_{T_m} &= \frac{1}{4(C_T/2)^3} = \frac{2}{C_T^3} \label{K4Tm}\\
+	\frac{K}{K_{T_m}} &= \frac{\alpha}{8\left(1-\alpha\right)^4} \qquad\text{(Association)}\label{ass}\\
+	& = \frac{8\left(1-\alpha\right)^4}{\alpha} \qquad\text{(Dissociation)}\label{diss}
+\end{align}
+Substitute equation \ref{ass} or \ref{diss} to equation \ref{kk},
+\begin{align}
+	e^{\frac{\Delta H}{R}\left(\frac{1}{T_m}-\frac{1}{T}\right)} = \frac{8\left(1-\alpha\right)^4}{\alpha}
+\end{align}
+Solve for $\alpha$,\\
+where $  x = e^{\frac{\Delta H}{R}\left(\frac{1}{T_m}-\frac{1}{T}\right)}$\\
+let $ u_1 = \sqrt[3]{9x^2 + \sqrt{3}\sqrt{27x^4+2048x^3}} $\\
+let $ u_2 = \sqrt[3]{18} $\\
+let $ u_3 = \sqrt[3]{\frac{2}{3}}x $
+%\begin{align}
+%	\text{where } x &= e^{\frac{\Delta H}{R}\left(\frac{1}{T_m}-\frac{1}{T}\right)}\\
+%	\text{let } u_1 &= \sqrt[3]{9x^2 + \sqrt{3}\sqrt{27x^4+2048x^3}}\\
+%	\text{let } u_2 &= \sqrt[3]{18}\\
+%	\text{let } u_3 &= \sqrt[3]{\frac{2}{3}} \\
+%\end{align}
+\begin{align}
+	\alpha = \pm \frac{1}{4}\sqrt{\left(\frac{u_1}{u_2}-\frac{8u_3}{u_1}\right)}\pm \frac{1}{2}\sqrt{\left(\frac{2u_3}{u_1}+\frac{x}{2\sqrt{\frac{u_1}{u_2}-\frac{8u_3}{u_1}}}-\frac{u_1}{4u_2}\right)}+1
+\end{align}
+Signs are probably +,- or -,+ for each $\pm$ respectively to get physical values.
+
+To normalise the $\alpha$ use the relation,
+\begin{align}
+	\frac{A_b - (N + aT)}{(D+bT)-(N+aT)}
+\end{align}
+where $ A_b $ is the absorbance or y-value, N and D are y-intercepts, and $ a $ and $ b $ are slopes of the flat region. Thus,
+\begin{align}
+	A_b = N + aT + ((b-a)T+D-N)\alpha
+\end{align}
+
+$ \divideontimes $ Temperature are in Kelvins
+\end{document}
